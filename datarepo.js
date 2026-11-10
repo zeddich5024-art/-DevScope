@@ -1,4 +1,4 @@
-const repos=[
+export const repos=[
   {
     "id": 1451313361,
     "node_id": "R_kgDOVoFI0Q",

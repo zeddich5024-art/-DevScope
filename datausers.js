@@ -1,4 +1,4 @@
-const users={
+export const users={
   "login": "zeddich5024-art",
   "id": 296917471,
   "node_id": "U_kgDOEbKZ3w",
