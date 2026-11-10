@@ -20,4 +20,5 @@ btnanalyse.addEventListener("click",()=>{
         return;
     }
      window.location.href=`profil.html?code=${encodeURIComponent(Recherch)}`;
+    
 })
