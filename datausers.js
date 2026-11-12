@@ -24,7 +24,7 @@ export const users={
   "location": null,
   "email": null,
   "hireable": null,
-  "bio": null,
+  "bio": "\"Full stack web développer\"",
   "twitter_username": null,
   "public_repos": 9,
   "public_gists": 0,
