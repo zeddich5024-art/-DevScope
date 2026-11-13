@@ -1,17 +1,17 @@
 const params = new URLSearchParams(window.location.search);
-const recherch = params.get("code");
+const recherch = params.get("users");
 const content=document.querySelector("#content");
 const Recherch=document.querySelector("#Recherch");
 Recherch.value=recherch;
 import { getUser,getDepots } from "./api.js";
 // import { users } from "./datausers.js";
-// import { repos } from "./datarepo.js";
+// import { depote } from "./datarepo.js";
 const users=await getUser(recherch);
 const depote=await getDepots(recherch)
 console.log(users)
 console.log(depote);
 
-function afficherusers(){
+export function afficherusers(){
     const profil=document.createElement("div");
     profil.className="bg-[#0d1220] mr-2 p-6 border-1 border-gray-800 rounded-2xl shadow-xl w-3/7 h-150 text-center text-white";
     const image=document.createElement("div");
@@ -90,8 +90,11 @@ function afficherusers(){
     btnajouter.innerHTML=`<i class="fa-regular fa-star"></i> Ajouter à la shortlist` ;
 
     const voirprofil=document.createElement("div");
-    voirprofil.className="block w-full mt-4 py-3 rounded-xl border border-gray-800 text-cyan-400 text-sm font-semibold hover:bg-slate-800 transition duration-300";
+    voirprofil.className="block cursor-pointer w-full mt-4 py-3 rounded-xl border border-gray-800 text-cyan-400 text-sm font-semibold hover:bg-slate-800 transition duration-300";
     voirprofil.innerHTML=`Voir le profil original &#8599;`;
+    voirprofil.addEventListener("click",()=>{
+        window.location.href=`https://github.com/${users.login}`;
+    })
 
     profil.append(image,nomusers,tempmap,status,btnajouter,voirprofil)
     
@@ -112,7 +115,7 @@ function afficherusers(){
 
     content.append(profil, Repos);
 }
-function afficherepos() {
+export function afficherepos() {
     const carts = document.createElement("div");
     carts.className = "grid grid-cols-1 md:grid-cols-2 gap-4";
     depote.forEach(repo => {
@@ -148,4 +151,25 @@ function afficherepos() {
     });
     return carts;
 }
-afficherusers();
+export function error() {
+    const erreur = document.createElement("div");
+    erreur.className = "w-full min-h-[356px] bg-[#0d1220] border border-gray-800 rounded-[28px] flex flex-col items-center justify-center px-6 py-10";
+    const iconerreur = document.createElement("div");
+    iconerreur.className = "w-[90px] h-[90px] rounded-full border border-red-500/50 flex items-center justify-center shadow-[0_0_30px_rgba(239,68,68,0.15)] mb-7";
+    const icon = document.createElement("p");
+    icon.className = "text-red-500 text-4xl font-light";
+    icon.textContent = "!";
+    const messageerreur = document.createElement("p");
+    messageerreur.className = "text-center text-gray-50 text-2xl font-semibold leading-relaxed";
+    messageerreur.innerHTML = `Aucun développeur trouvé. Vérifiez le nom<br> d'utilisateur et réessayez.`;
+    iconerreur.appendChild(icon);
+    erreur.append(iconerreur,messageerreur);
+    content.appendChild(erreur)
+}
+const analyser=document.querySelector("#Analyser");
+const search=document.querySelector("#Recherch")
+analyser.addEventListener("click",()=>{
+    const Recherch1=search.value.trim();
+    window.location.href=`profil.html?users=${encodeURIComponent(Recherch1)}`;
+})
+afficherusers()

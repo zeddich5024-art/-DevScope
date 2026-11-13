@@ -19,6 +19,6 @@ btnanalyse.addEventListener("click",()=>{
     if(!valide){
         return;
     }
-     window.location.href=`profil.html?code=${encodeURIComponent(Recherch)}`;
+     window.location.href=`profil.html?users=${encodeURIComponent(Recherch)}`;
     
 })
