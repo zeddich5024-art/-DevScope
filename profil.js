@@ -4,11 +4,12 @@ const content=document.querySelector("#content");
 const Recherch=document.querySelector("#Recherch");
 Recherch.value=recherch;
 console.log("Recherch",recherch)
-import { getUser,getDepots,postusers} from "./api.js";
+import { getUser,getDepots,postusers,getshorts} from "./api.js";
 
 const users=await getUser(recherch);
 const depote=await getDepots(recherch)
-
+const shorts=await getshorts();
+console.log(shorts)
 function languageplus(depote){
 const languages=depote.map(repo=>repo.language).filter(language =>language!==null);
 const counts={};
@@ -106,6 +107,11 @@ export function afficherusers(){
         rating:5,
         note:"Aunune note",
         createAt:new Date()
+    }
+    const CompteExiste=shorts.some((short)=>short.name===users.name);
+    if(CompteExiste){
+        alert("Ce Compte est déjà utilisé!:")
+        return;
     }
         postusers(shoruser);
     })

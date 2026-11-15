@@ -1,9 +1,10 @@
 const API_URL="https://6af935706d8b86fb22d6dc36.mockapi.io/depots/user";
-async function getshorts(){
+export async function getshorts(){
     const response = await fetch(API_URL);
     const shorts= await response.json();
     return shorts;
 }
+
 const shorts=await getshorts();
 console.log(shorts)
 const content=document.querySelector("#content");
@@ -43,8 +44,11 @@ function affichershort(){
         donner.append(name,loginlanguage,Note,date)
         linge1.append(image,donner)
         const supprimer=document.createElement("div");
-        supprimer.className="";
+        supprimer.className="px-2 py-1 border-1 border-red-500 text-white font-meduim bg-red-500/30 cursor-pointer rounded-lg";
         supprimer.textContent="supprimer"
+        supprimer.addEventListener("click",()=>{
+
+        })
         carte.append(linge1,supprimer)
         content.append(carte)
     })
