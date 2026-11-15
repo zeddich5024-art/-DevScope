@@ -3,14 +3,20 @@ const recherch = params.get("users");
 const content=document.querySelector("#content");
 const Recherch=document.querySelector("#Recherch");
 Recherch.value=recherch;
-import { getUser,getDepots } from "./api.js";
-// import { users } from "./datausers.js";
-// import { depote } from "./datarepo.js";
+import { getUser,getDepots,postusers} from "./api.js";
+
 const users=await getUser(recherch);
 const depote=await getDepots(recherch)
-console.log(users)
-console.log(depote);
 
+export function languageplus(depote){
+const languages=depote.map(repo=>repo.language).filter(language =>language!==null);
+const counts={};
+languages.forEach(language =>{
+    counts[language] =(counts[language] || 0)+1;
+})
+const mainLanguage=Object.keys(counts).sort((a,b)=>counts[b]-counts[a])[0]||"Non défini";
+return mainLanguage;
+}
 export function afficherusers(){
     const profil=document.createElement("div");
     profil.className="bg-[#0d1220] mr-2 p-6 border-1 border-gray-800 rounded-2xl shadow-xl w-3/7 h-150 text-center text-white";
@@ -88,7 +94,9 @@ export function afficherusers(){
     const btnajouter=document.createElement("button");
     btnajouter.className=" w-full py-3 my-1 rounded-xl bg-gradient-to-r from-cyan-400 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-500/20 hover:scale-[1.02] hover:shadow-purple-500/40 transition-all duration-300 cursor-pointer";
     btnajouter.innerHTML=`<i class="fa-regular fa-star"></i> Ajouter à la shortlist` ;
-
+    btnajouter.addEventListener("click",()=>{
+        postusers(recherch);
+    })
     const voirprofil=document.createElement("div");
     voirprofil.className="block cursor-pointer w-full mt-4 py-3 rounded-xl border border-gray-800 text-cyan-400 text-sm font-semibold hover:bg-slate-800 transition duration-300";
     voirprofil.innerHTML=`Voir le profil original &#8599;`;
@@ -172,4 +180,5 @@ analyser.addEventListener("click",()=>{
     const Recherch1=search.value.trim();
     window.location.href=`profil.html?users=${encodeURIComponent(Recherch1)}`;
 })
+
 afficherusers()

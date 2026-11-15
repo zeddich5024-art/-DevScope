@@ -1,4 +1,4 @@
-import{error,afficherusers} from "./profil.js";
+import{error,languageplus} from "./profil.js";
 export async function getUser(recherch){
     try{
     const response = await fetch(`https://api.github.com/users/${recherch}`);
@@ -17,16 +17,24 @@ export async function getDepots(recherch){
     return depots;
 } 
 
-
+const API_URL="https://6af935706d8b86fb22d6dc36.mockapi.io/depots/user";
 export async function postusers(recherch){
-    const users=getUser(recherch);
-    const repo=getDepots(recherch);
+    const users=await getUser(recherch);
+    const depote=await getDepots(recherch);
     const shoruser={
         login:users.login,
         name:users.name,
         avatar_url:users.avatar_url,
         html_url:users.html_url,
-        language:repo.language,
-        
+        language:languageplus(depote),
+        status:"À contacter",
+        rating:5,
+        note:"Aunune note",
+        createAt:new Date().toISOString()
     }
+        const res=await fetch(API_URL,{
+            method:'POST',
+            headers:{'Content-Type':'application/JSON'},
+            body:JSON.stringify(shoruser)
+        })
 }
