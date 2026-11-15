@@ -109,6 +109,7 @@ export function afficherusers(){
         createAt:new Date()
     }
     const CompteExiste=shorts.some((short)=>short.name===users.name);
+    console.log(CompteExiste)
     if(CompteExiste){
         alert("Ce Compte est déjà utilisé!:")
         return;
