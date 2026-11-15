@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script type="module" src="script.js"></script>
+    <script type="module" src="shortlist.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha512-QeR2VH+lsBE5LSAe1Q5EnTBbe7XTBubt8dG93Y7gidSgdMCr8nVqKcfKAMyN96SV8KDbZVTDXChatu5G2KQGzg==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <title> DevScope</title>
 </head>
@@ -22,8 +22,9 @@
     <main id="Shortlist">
         <div>
             <h1 class="text-4xl font-semibold text-blue-500 ml-10 mt-10 mb-2 ">Ma shortlist</h1>
-            <p class="text-lg text-gray-500 ml-10"><span>3</span> candidat(s) dans votre shortlist</p>
+            <p class="text-lg text-gray-500 ml-10"><span id="nomdrechort"></span> candidat(s) dans votre shortlist</p>
         </div>
+        <div id="content" class="mx-20 my-5 "></div>
     </main>
 </body>
 </html>

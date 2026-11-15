@@ -3,12 +3,13 @@ const recherch = params.get("users");
 const content=document.querySelector("#content");
 const Recherch=document.querySelector("#Recherch");
 Recherch.value=recherch;
+console.log("Recherch",recherch)
 import { getUser,getDepots,postusers} from "./api.js";
 
 const users=await getUser(recherch);
 const depote=await getDepots(recherch)
 
-export function languageplus(depote){
+function languageplus(depote){
 const languages=depote.map(repo=>repo.language).filter(language =>language!==null);
 const counts={};
 languages.forEach(language =>{
@@ -95,7 +96,18 @@ export function afficherusers(){
     btnajouter.className=" w-full py-3 my-1 rounded-xl bg-gradient-to-r from-cyan-400 to-pink-500 text-white font-bold text-sm shadow-lg shadow-purple-500/20 hover:scale-[1.02] hover:shadow-purple-500/40 transition-all duration-300 cursor-pointer";
     btnajouter.innerHTML=`<i class="fa-regular fa-star"></i> Ajouter à la shortlist` ;
     btnajouter.addEventListener("click",()=>{
-        postusers(recherch);
+        const shoruser={
+        login:users.login,
+        name:users.name,
+        avatar_url:users.avatar_url,
+        html_url:users.html_url,
+        language:languageplus(depote),
+        status:"À contacter",
+        rating:5,
+        note:"Aunune note",
+        createAt:new Date()
+    }
+        postusers(shoruser);
     })
     const voirprofil=document.createElement("div");
     voirprofil.className="block cursor-pointer w-full mt-4 py-3 rounded-xl border border-gray-800 text-cyan-400 text-sm font-semibold hover:bg-slate-800 transition duration-300";
