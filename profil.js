@@ -3,14 +3,14 @@ const recherch = params.get("users");
 const content=document.querySelector("#content");
 const Recherch=document.querySelector("#Recherch");
 Recherch.value=recherch;
-console.log("Recherch",recherch)
+
 import { getUser,getDepots,postusers,getshorts} from "./api.js";
 import { users } from "./uesers.js";
 import { depote } from "./depos.js";
 // const users=await getUser(recherch);
 // const depote=await getDepots(recherch)
 const shorts=await getshorts();
-console.log(shorts)
+
 function languageplus(depote){
 const languages=depote.map(repo=>repo.language).filter(language =>language!==null);
 const counts={};
@@ -125,52 +125,11 @@ export function afficherusers(){
     })
 
     profil.append(image,nomusers,tempmap,status,btnajouter,voirprofil)
-    
-    const Repos=document.createElement("div"); 
-    Repos.className="w-full bg-[#0d1220] p-6 rounded-2xl border border-gray-800 overflow-y-auto h-150 ";
-    const filtre=document.createElement("div");
-    filtre.className="flex gap-3"
-    const search1=document.createElement("div");
-    search1.className="w-2/5 border-1 shadow-xl/30 border-gray-950 bg-gray-950/25 h-10 rounded-lg";
-    search1.innerHTML=`<input type="text" name="fsrch">`
-    const filterbtn=document.createElement("div");
-    filterbtn.className="w-3/5"
-    const filtJavaScript=document.createElement("button");
-    filtJavaScript.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
-    filtJavaScript.textContent="JS";
-    const filtJAVA=document.createElement("button");
-    filtJAVA.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
-    filtJAVA.textContent="JAVA";
-    const filtHTML=document.createElement("button");
-    filtHTML.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
-    filtHTML.textContent="HTML";
-    const filtPHP=document.createElement("button");
-    filtPHP.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
-    filtPHP.textContent="PHP";
-    const filtC=document.createElement("button");
-    filtC.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
-    filtC.textContent="C";
-    const filtPython=document.createElement("button");
-    filtPython.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
-    filtPython.textContent="PH";
-    filterbtn.append(filtC,filtHTML,filtJAVA,filtJavaScript,filtPHP,filtPython);
-    filtre.append(filterbtn,search1)
-    const titre=document.createElement("div");
-    titre.className="flex items-center gap-3 mb-6";
-    const Dépots=document.createElement("h2");
-    Dépots.className="text-2xl font-bold text-white";
-    Dépots.textContent="Dépôts";
-    const nombDépots=document.createElement("span");
-    nombDépots.className="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-xs font-bold";
-    nombDépots.textContent=depote.length;
-    titre.append(Dépots, nombDépots);
-
-    Repos.append(filtre,titre, afficherepos());
-
-    content.append(profil, Repos);
+    return profil;
 }
-export function afficherepos() {
-    const carts = document.createElement("div");
+const carts = document.createElement("div");
+export function afficherepos(depote) {
+    
     carts.className = "grid grid-cols-1 md:grid-cols-2 gap-4";
     depote.forEach(repo => {
         const carte = document.createElement("div");
@@ -227,4 +186,59 @@ analyser.addEventListener("click",()=>{
     window.location.href=`profil.html?users=${encodeURIComponent(Recherch1)}`;
 })
 
-afficherusers()
+
+function afficherdata(){
+    const Repos=document.createElement("div"); 
+    Repos.className="w-full bg-[#0d1220] p-6 rounded-2xl border border-gray-800 overflow-y-auto h-150 ";
+    const carts=afficherepos(depote);
+    const filtre=document.createElement("div");
+    filtre.className="flex gap-3"
+    const search1=document.createElement("input");
+    search1.className="w-2/5 border-1 text-gray-50 text-lg shadow-xl/30 border-gray-950 bg-gray-950/25 h-10 rounded-lg";
+    search1.type="text";
+    search1.addEventListener("input",function(){
+
+    let searchValue=this.value.trim().toLowerCase();
+    console.log(searchValue)
+    let depotsfiltrer=depote.filter(depot=>depot.name.toLowerCase().includes(searchValue));
+    carts.innerHTML="";
+    carts.append(afficherepos(depotsfiltrer));
+    })
+
+    const filterbtn=document.createElement("div");
+    filterbtn.className="w-3/5";
+    const filtJavaScript=document.createElement("button");
+    filtJavaScript.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
+    filtJavaScript.textContent="JS";
+    const filtJAVA=document.createElement("button");
+    filtJAVA.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
+    filtJAVA.textContent="JAVA";
+    const filtHTML=document.createElement("button");
+    filtHTML.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
+    filtHTML.textContent="HTML";
+    const filtPHP=document.createElement("button");
+    filtPHP.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
+    filtPHP.textContent="PHP";
+    const filtC=document.createElement("button");
+    filtC.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
+    filtC.textContent="C";
+    const filtPython=document.createElement("button");
+    filtPython.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
+    filtPython.textContent="PH";
+    filterbtn.append(filtC,filtHTML,filtJAVA,filtJavaScript,filtPHP,filtPython);
+    filtre.append(filterbtn,search1)
+    const titre=document.createElement("div");
+    titre.className="flex items-center gap-3 mb-6";
+    const Dépots=document.createElement("h2");
+    Dépots.className="text-2xl font-bold text-white";
+    Dépots.textContent="Dépôts";
+    const nombDépots=document.createElement("span");
+    nombDépots.className="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-xs font-bold";
+    nombDépots.textContent=depote.length;
+    titre.append(Dépots, nombDépots);
+
+    Repos.append(filtre,titre,carts);
+
+    content.append(afficherusers(), Repos);
+}
+afficherdata()

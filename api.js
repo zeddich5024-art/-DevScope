@@ -25,7 +25,7 @@ export async function postusers(shoruser){
             headers:{'Content-Type':'application/JSON'},
             body:JSON.stringify(shoruser)
         })
-        location.reload();
+        
         
 }
 export async function getshorts(){
