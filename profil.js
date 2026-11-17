@@ -207,25 +207,17 @@ function afficherdata(){
 
     const filterbtn=document.createElement("div");
     filterbtn.className="w-3/5";
-    const filtJavaScript=document.createElement("button");
-    filtJavaScript.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
-    filtJavaScript.textContent="JS";
-    const filtJAVA=document.createElement("button");
-    filtJAVA.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
-    filtJAVA.textContent="JAVA";
-    const filtHTML=document.createElement("button");
-    filtHTML.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
-    filtHTML.textContent="HTML";
-    const filtPHP=document.createElement("button");
-    filtPHP.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
-    filtPHP.textContent="PHP";
-    const filtC=document.createElement("button");
-    filtC.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
-    filtC.textContent="C";
-    const filtPython=document.createElement("button");
-    filtPython.className="p-1 w-1/6 rounded-lg font-semibold text-gray-400 focus:bg-green-800 hover:bg-green-800 cursor-pointer";
-    filtPython.textContent="PH";
-    filterbtn.append(filtC,filtHTML,filtJAVA,filtJavaScript,filtPHP,filtPython);
+    const language=["Tous","C","HTML","Java","JavaScript","PHP","Python"];
+    language.forEach(language =>{
+        const btn=document.createElement("button");
+        btn.textContent=language;
+        btn.className="px-2 py-1 rounded-lg font-semibold text-gray-400 hover:bg-green-800 cursor-pointer";
+        btn.addEventListener("click",()=>{
+            console.log(language)
+            filtrepolang(language);
+        })
+        filterbtn.append(btn);
+    })
     filtre.append(filterbtn,search1)
     const titre=document.createElement("div");
     titre.className="flex items-center gap-3 mb-6";
@@ -240,5 +232,17 @@ function afficherdata(){
     Repos.append(filtre,titre,carts);
 
     content.append(afficherusers(), Repos);
+}
+function filtrepolang(language){
+    if(language ==="Tous"){
+        
+        carts.append(afficherepos(depote));
+    }
+    else{
+        const fitrlang=depote.filter(depot=>depot.language == language);
+        carts.innerHTML='';
+        carts.append(afficherepos(fitrlang))
+    }
+    
 }
 afficherdata()
