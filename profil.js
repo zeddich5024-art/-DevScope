@@ -5,10 +5,10 @@ const Recherch=document.querySelector("#Recherch");
 Recherch.value=recherch;
 
 import { getUser,getDepots,postusers,getshorts} from "./api.js";
-import { users } from "./uesers.js";
-import { depote } from "./depos.js";
-// const users=await getUser(recherch);
-// const depote=await getDepots(recherch)
+// import { users } from "./uesers.js";
+// import { depote } from "./depos.js";
+const users=await getUser(recherch);
+const depote=await getDepots(recherch)
 const shorts=await getshorts();
 
 function languageplus(depote){
@@ -127,9 +127,9 @@ export function afficherusers(){
     profil.append(image,nomusers,tempmap,status,btnajouter,voirprofil)
     return profil;
 }
-const carts = document.createElement("div");
+
 export function afficherepos(depote) {
-    
+    const carts = document.createElement("div");
     carts.className = "grid grid-cols-1 md:grid-cols-2 gap-4";
     depote.forEach(repo => {
         const carte = document.createElement("div");
@@ -187,62 +187,75 @@ analyser.addEventListener("click",()=>{
 })
 
 
-function afficherdata(){
-    const Repos=document.createElement("div"); 
-    Repos.className="w-full bg-[#0d1220] p-6 rounded-2xl border border-gray-800 overflow-y-auto h-150 ";
-    const carts=afficherepos(depote);
-    const filtre=document.createElement("div");
-    filtre.className="flex gap-3"
-    const search1=document.createElement("input");
-    search1.className="w-2/5 border-1 text-gray-50 text-lg shadow-xl/30 border-gray-950 bg-gray-950/25 h-10 rounded-lg";
-    search1.type="text";
-    search1.addEventListener("input",function(){
 
-    let searchValue=this.value.trim().toLowerCase();
-    console.log(searchValue)
-    let depotsfiltrer=depote.filter(depot=>depot.name.toLowerCase().includes(searchValue));
-    carts.innerHTML="";
-    carts.append(afficherepos(depotsfiltrer));
-    })
-
-    const filterbtn=document.createElement("div");
-    filterbtn.className="w-3/5";
-    const language=["Tous","C","HTML","Java","JavaScript","PHP","Python"];
-    language.forEach(language =>{
-        const btn=document.createElement("button");
-        btn.textContent=language;
-        btn.className="px-2 py-1 rounded-lg font-semibold text-gray-400 hover:bg-green-800 cursor-pointer";
-        btn.addEventListener("click",()=>{
-            console.log(language)
-            filtrepolang(language);
-        })
+function afficherdata() {
+    const Repos = document.createElement("div");
+    Repos.className = "w-full bg-[#0d1220] p-6 rounded-2xl border border-gray-800 overflow-y-auto h-150";
+    let carts = afficherepos(depote);
+    const filtre = document.createElement("div");
+    filtre.className = "flex gap-3";
+    let langueActive = "Tous";
+    const filterbtn = document.createElement("div");
+    filterbtn.className = "w-3/5";
+    // Champ de recherche
+    const search1 = document.createElement("input");
+    search1.className = "w-2/5 border-1 text-gray-50 text-lg shadow-xl/30 border-gray-950 bg-gray-950/25 h-10 rounded-lg";
+    search1.type = "text";
+    search1.placeholder = "Rechercher un dépôt...";
+    // Fonction de recherche et filtrage
+    function filtrerRepos() {
+        const texte = search1.value.trim().toLowerCase();
+        const resultat = depote.filter(repo => {
+            const correspondLangue =
+                langueActive === "Tous" ||
+                repo.language === langueActive;
+            const correspondRecherche =
+                repo.name.toLowerCase().includes(texte);
+            return correspondLangue && correspondRecherche;
+        });
+        const nouvellesCartes = afficherepos(resultat);
+        carts.replaceWith(nouvellesCartes);
+        carts = nouvellesCartes;
+    }
+    // Boutons des langages
+    const language = [
+        "Tous", "C", "HTML",
+        "Java", "JavaScript", "PHP", "Python"
+    ];
+    language.forEach(language => {
+        const btn = document.createElement("button");
+        btn.textContent = language;
+        btn.className = "px-2 py-1 rounded-lg font-semibold text-gray-400 hover:bg-green-800 cursor-pointer";
+        btn.addEventListener("click", () => {
+            langueActive = language;
+            filtrerRepos();
+        });
         filterbtn.append(btn);
-    })
-    filtre.append(filterbtn,search1)
-    const titre=document.createElement("div");
-    titre.className="flex items-center gap-3 mb-6";
-    const Dépots=document.createElement("h2");
-    Dépots.className="text-2xl font-bold text-white";
-    Dépots.textContent="Dépôts";
-    const nombDépots=document.createElement("span");
-    nombDépots.className="bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-xs font-bold";
-    nombDépots.textContent=depote.length;
+    });
+    // Recherche dynamique
+    search1.addEventListener("input", filtrerRepos);
+    filtre.append(filterbtn, search1);
+    // Titre
+    const titre = document.createElement("div");
+    titre.className = "flex items-center gap-3 mb-6";
+    const Dépots = document.createElement("h2");
+    Dépots.className = "text-2xl font-bold text-white";
+    Dépots.textContent = "Dépôts";
+    const nombDépots = document.createElement("span");
+    nombDépots.className = "bg-cyan-500/20 text-cyan-400 px-3 py-1 rounded-full text-xs font-bold";
+    nombDépots.textContent = depote.length;
     titre.append(Dépots, nombDépots);
-
-    Repos.append(filtre,titre,carts);
-
+    // Assemblage
+    Repos.append(filtre, titre, carts);
     content.append(afficherusers(), Repos);
 }
 function filtrepolang(language){
-    if(language ==="Tous"){
-        
-        carts.append(afficherepos(depote));
+    if(language ==="Tous" || language === null){
+        return depote;
     }
     else{
         const fitrlang=depote.filter(depot=>depot.language == language);
-        carts.innerHTML='';
-        carts.append(afficherepos(fitrlang))
-    }
-    
+        return fitrlang;
+    }   
 }
 afficherdata()

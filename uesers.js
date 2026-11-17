@@ -27,9 +27,9 @@ export const users={
   "bio": null,
   "bio": "\"Full stack web développer\"",
   "twitter_username": null,
-  "public_repos": 9,
+  "public_repos": 900,
   "public_gists": 0,
-  "followers": 0,
-  "following": 0,
+  "followers": 100000,
+  "following": 1000,
   "created_at": "2026-06-25T15:17:17Z",
   "updated_at": "2026-10-09T20:34:01Z"}
