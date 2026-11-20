@@ -1,5 +1,6 @@
 
 import {getUser,getDepots,postusers,getshorts} from "./api.js";
+import {getCache, setCache} from "./cache.js";
 
 // 1. RÉCUPÉRATION DES PARAMÈTRES ET DONNÉES
 
@@ -9,10 +10,33 @@ const recherch = params.get("users");
 const content = document.querySelector("#content");
 const Recherch = document.querySelector("#Recherch");
 
+const username = recherch;
+
 Recherch.value = recherch;
 
-const users = await getUser(recherch);
-const depote = await getDepots(recherch);
+// const users = await getUser(recherch);
+// const depote = await getDepots(recherch);
+
+let users;
+let depote;
+
+const cachedProfile = getCache(`profile_${username}`);
+
+if(cachedProfile){
+    users = cachedProfile.users;
+    depote = cachedProfile.depote;
+    console.log("eeee")
+}else{
+    console.log("rrrr")
+    const [userData,repoData] = await Promise.all([getUser(username),getDepots(username)]);
+    users=userData;
+    depote=repoData;
+    setCache(`profile_${username}`,{
+        users:users,
+        depote:depote
+    })
+}
+
 const shorts = await getshorts();
 
 // 2. CALCUL DU LANGAGE PRINCIPAL
