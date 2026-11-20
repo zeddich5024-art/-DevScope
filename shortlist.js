@@ -204,8 +204,15 @@ function affichershort(x) {
 
         });
         
-        // 10. Bouton modifier
+        // 10. status de users
 
+        const status_short=document.createElement("div");
+        status_short.className="px-2 py-1 border border-blue-500 text-blue-500 font-medium bg-blue-500/30 rounded-lg";
+        status_short.textContent=short.status;
+        if(short.status === "Refusé"){
+            status_short.className="px-2 py-1 border border-red-500 text-red-500 font-medium bg-red-500/30 rounded-lg";
+        }
+        // 11. Bouton modifier
 
         const modifier=document.createElement("button");
         modifier.className="px-2 py-1 border border-green-500 text-white font-medium bg-green-500/30 cursor-pointer rounded-lg"
@@ -221,18 +228,18 @@ function affichershort(x) {
     modalCommentaire.value = short.note;
 });
 
-        // 11. bouton Annuler
+        // 12. bouton Annuler
         const btnAnnuler=document.querySelector("#btnAnnuler");
         btnAnnuler.addEventListener("click",()=>{
             dialog.close();
         });
-        // 12. Bouton X
+        // 13. Bouton X
         const btnX=document.querySelector("#btnX");
         btnX.addEventListener("click",()=>{
             dialog.close();
         });
 
-        linge2.append(modifier,supprimer)
+        linge2.append(status_short,modifier,supprimer)
         carte.append(linge1,linge2);
 
         carts.append(carte);
@@ -240,10 +247,10 @@ function affichershort(x) {
     });
 }
 
-// 13. Affichage initial
+// 14. Affichage initial
 content.append(filtershort, carts);
 
-// 14. de formulaire de modifier
+// 15. de formulaire de modifier
 const dialog=document.querySelector("#modalModif");
 const Enregistrer = document.querySelector("#formModif");
 
