@@ -16,7 +16,16 @@ export async function updateshort(id, data) {
 
     return await response.json();
 }
-// 1. Récupération des données
+// les variables de supprimer
+let shortASupprimer = null;
+
+const modalSupp = document.querySelector("#modalSupp");
+const btn_ok_supp = document.querySelector("#btn_ok_supp");
+const btn_annuler_supp = document.querySelector("#btn_Annuler_supp");
+const Nomsupp=document.querySelector("#Nomsupp");
+
+
+// Récupération des données
 export async function getshorts() {
     const response = await fetch(API_URL);
     const shorts = await response.json();
@@ -36,7 +45,7 @@ export async function deleteshorts(nam) {
     return await res.json();
 }
 
-// 3. Récupération initiale
+// Récupération initiale
 let shorts = await getshorts();
 let shortActif = null;
 const content = document.querySelector("#content");
@@ -44,7 +53,7 @@ const nombrechort = document.querySelector("#nomdrechort");
 
 nombrechort.textContent = shorts.length;
 
-// 4. Création des éléments
+// Création des éléments
 const carts = document.createElement("div");
 const filterbtn = document.createElement("div");
 const filtershort = document.createElement("div");
@@ -59,7 +68,7 @@ search.placeholder = "Rechercher un dépôt...";
 
 let langueActive = "Tous";
 
-// 5. Filtrage et recherche
+// Filtrage et recherche
 function filtrerRepos() {
     const texte = search.value.trim().toLowerCase();
 
@@ -80,7 +89,7 @@ function filtrerRepos() {
     affichershort(resultat);
 }
 
-// 6. Boutons de filtrage
+// Boutons de filtrage
 const status = [
     "Tous",
     "À contacter",
@@ -105,12 +114,12 @@ status.forEach(statue => {
     filterbtn.append(btn);
 });
 
-// 7. Événement de recherche
+// Événement de recherche
 search.addEventListener("input", filtrerRepos);
 
 filtershort.append(filterbtn, search);
 
-// 8. Affichage des dépôts
+// Affichage des dépôts
 function affichershort(x) {
 
     carts.innerHTML = "";
@@ -179,30 +188,24 @@ function affichershort(x) {
         
         const linge2=document.createElement("div");
         linge2.className="flex gap-4"
-        // 9. Bouton supprimer
+        //  Bouton supprimer
+     
         const supprimer = document.createElement("button");
 
         supprimer.className = "px-2 py-1 border border-red-500 text-white font-medium bg-red-500/30 cursor-pointer rounded-lg";
 
         supprimer.textContent = "Supprimer";
-
-        supprimer.addEventListener("click", async () => {
-
-            try {
-
-                await deleteshorts(short.id);
-
-                shorts = shorts.filter(s => s.id !== short.id);
-
-                nombrechort.textContent = shorts.length;
-
-                filtrerRepos();
-
-            } catch (error) {
-                console.error(error);
-            }
-
-        });
+        supprimer.addEventListener("click",()=>{
+            Nomsupp.textContent=short.name || short.login;
+            console.log(Nomsupp.textContent)
+            shortASupprimer = short;
+            modalSupp.showModal();
+        })
+        //  Bouton annuler
+        btn_annuler_supp.addEventListener("click", () => {
+        modalSupp.close();
+        shortASupprimer = null;
+    });
         
         // 10. status de users
 
@@ -213,7 +216,7 @@ function affichershort(x) {
             status_short.className="px-2 py-1 border border-red-500 text-red-500 font-medium bg-red-500/30 rounded-lg";
         }
 
-        // 11. rating de short
+        // rating de short
 
         const rating_short=document.createElement("div");
         rating_short.className="text-lg text-yellow-400";
@@ -237,31 +240,34 @@ function affichershort(x) {
                         
         }
 
-        // 11. Bouton modifier
+        // Bouton modifier
 
         const modifier=document.createElement("button");
         modifier.className="px-2 py-1 border border-green-500 text-white font-medium bg-green-500/30 cursor-pointer rounded-lg"
         modifier.textContent="Modifier";
         modifier.addEventListener("click", () => {
-    shortActif = short;
+            shortActif = short;
+            modifier.className="px-2 py-1 border border-green-500/10 text-white/10 font-medium bg-green-500/10 rounded-lg"
+            dialog.showModal();
 
-    dialog.showModal();
+            modalNom.textContent = short.name || short.login;
+            modalStatut.value = short.status;
+            modalNote.value = short.rating;
+            modalCommentaire.value = short.note;
+        });
 
-    modalNom.textContent = short.name;
-    modalStatut.value = short.status;
-    modalNote.value = short.rating;
-    modalCommentaire.value = short.note;
-});
-
-        // 12. bouton Annuler
+        //  bouton Annuler
         const btnAnnuler=document.querySelector("#btnAnnuler");
         btnAnnuler.addEventListener("click",()=>{
             dialog.close();
+            modifier.className="px-2 py-1 border border-green-500 text-white font-medium bg-green-500/30 cursor-pointer rounded-lg"
         });
         // 13. Bouton X
         const btnX=document.querySelector("#btnX");
         btnX.addEventListener("click",()=>{
+
             dialog.close();
+            modifier.className="px-2 py-1 border border-green-500 text-white font-medium bg-green-500/30 cursor-pointer rounded-lg"
         });
 
         linge2.append(rating_short,status_short,modifier,supprimer)
@@ -272,10 +278,10 @@ function affichershort(x) {
     });
 }
 
-// 14. Affichage initial
+//  Affichage initial
 content.append(filtershort, carts);
 
-// 15. de formulaire de modifier
+//  de formulaire de modifier
 const dialog=document.querySelector("#modalModif");
 const Enregistrer = document.querySelector("#formModif");
 
@@ -311,6 +317,37 @@ Enregistrer.addEventListener("submit", async (e) => {
     } catch (error) {
         console.error(error);
     }
+    modifier.className="px-2 py-1 border border-green-500 text-white font-medium bg-green-500/30 cursor-pointer rounded-lg"
 });
-affichershort(shorts);
 
+btn_ok_supp.addEventListener("click", async () => {
+
+    if (!shortASupprimer) return;
+
+    try {
+        btn_ok_supp.disabled = true;
+
+        await deleteshorts(shortASupprimer.id);
+
+        shorts = shorts.filter(s => s.id !== shortASupprimer.id);
+
+        nombrechort.textContent = shorts.length;
+
+        modalSupp.close();
+
+        shortASupprimer = null;
+
+        filtrerRepos();
+
+    } catch (error) {
+        console.error(error);
+        alert("Erreur lors de la suppression du candidat");
+
+    } finally {
+        btn_ok_supp.disabled = false;
+    }
+
+});
+
+
+affichershort(shorts);
