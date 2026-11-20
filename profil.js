@@ -1,6 +1,7 @@
 
 import { getProfile,postusers,getshorts} from "./api.js";
 import {getCache, setCache} from "./cache.js";
+export const message = document.querySelector('#message');
 
 // 1. RÉCUPÉRATION DES PARAMÈTRES ET DONNÉES
 
@@ -64,7 +65,7 @@ function languageplus(depote) {
 export function afficherusers() {
 
     const profil = document.createElement("div");
-    profil.className = "bg-[#0d1220] mr-2 p-6 border-1 border-gray-800 rounded-2xl shadow-xl w-3/7 h-150 text-center text-white";
+    profil.className = "bg-[#0d1220] mr-2 p-6 border-1 border-gray-800 rounded-2xl shadow-xl w-3/7 h-160 text-center text-white";
 
     // Image
     const image = document.createElement("div");
@@ -88,7 +89,7 @@ export function afficherusers() {
     login.textContent = "@" + users.login;
 
     const Bio = document.createElement("p");
-    Bio.className = "text-gray-300 text-sm italic";
+    Bio.className = "text-gray-300 text-sm italic line-clamp-3";
     Bio.textContent = users.bio;
 
     nomusers.append(nom, login, Bio);
@@ -353,7 +354,7 @@ function afficherdata() {
 
     const Repos = document.createElement("div");
 
-    Repos.className = "w-full bg-[#0d1220] p-6 rounded-2xl border border-gray-800 overflow-y-auto h-150";
+    Repos.className = "w-full bg-[#0d1220] p-6 rounded-2xl border border-gray-800 overflow-y-auto h-160";
 
     let carts = afficherepos(depote);
 

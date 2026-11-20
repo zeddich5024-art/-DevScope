@@ -1,6 +1,7 @@
-import{error} from "./profil.js";
-
+import {message} from "./profil.js";
 export async function getProfile(recherch){
+    message.textContent= 'Chargement...';
+    message.classList.remove("hidden")
     try{
         const [responseUser,responseRepos] = await Promise.all([
             fetch(`https://api.github.com/users/${recherch}`),
@@ -15,9 +16,10 @@ export async function getProfile(recherch){
         }
 
         const [users, depote] = await Promise.all([responseUser.json(),responseRepos.json()]);
-        
+        message.textContent= '';
+        message.classList.add("hidden")
         return {users,depote};
-
+        
     }catch(err){
          throw err
     }
