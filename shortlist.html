@@ -26,5 +26,40 @@
         </div>
         <div id="content" class="mx-20 my-5 "></div>
     </main>
+    <dialog id="modalModif" class="w-[90%] max-w-md fixed top-20 left-100 rounded-lg p-4 border-2 bg-gray-500 border-white text-white ">
+        <form id="formModif" class="flex flex-col gap-2">
+            <div  class="flex justify-between">
+                <div class="flex flex-col gap-2">
+                    <p class="text-sm">Mise à jour du profil</p>
+                    <h2 class="text-2xl font-bold">Modifier le candidat &#8226; <span id="modalNom" class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"></span></h2>
+                </div>
+                <div>
+                    <button type="button" id="btnX" class=" text-center bg-slate-300 px-2 rounded-lg cursor-pointer">X</button>
+                </div>
+            </div>
+            <label for="modalStatut">Statut de recrutement</label>
+            <select id="modalStatut" class="p-2 shadow-lg rounded-lg  bg-slate-400/50 text-white">
+                <option value="À contacter">À contacter</option>
+                <option value="Entretien">Entretien</option>
+                <option value="Retenu">Retenu</option>
+                <option value="Refusé">Refusé</option>
+            </select>
+            <label for="modalNote">Note</label>
+            <select id="modalNote" class="p-2 rounded-lg shadow-lg  bg-slate-400/50 text-white">
+                <option value="5">★★★★★ 5 / 5</option>
+                <option value="4">★★★★☆ 4 / 5</option>
+                <option value="3">★★★☆☆ 3 / 5</option>
+                <option value="2">★★☆☆☆ 2 / 5</option>
+                <option value="1">★☆☆☆☆ 1 / 5</option>
+            </select>
+            <label for="modalCommentaire">Note interne</label>
+            <textarea id="modalCommentaire" rows="4" class="p-2 rounded-lg text-white text-lg shadow-lg bg-slate-400/50"></textarea>
+            <p id="erreurModal" class="text-red-300 text-sm"></p>
+            <span class="flex justify-end gap-2">
+                <button type="button" id="btnAnnuler" class="bg-gray-600/60 text-white shadow-lg  h-9 px-2 hover:bg-purple-500 rounded-lg cursor-pointer">Annuler</button>
+                <button type="submit" id="btnEnregistrer" class= "bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-lg  h-9 self-center text-gray-50 text-shadow-2xs mr-2 px-2 shadow-lg  cursor-pointer">Enregistrer</button>
+            </span>
+        </form>
+    </dialog>
 </body>
 </html>

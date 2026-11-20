@@ -33,3 +33,18 @@ export async function getshorts(){
     const shorts= await response.json();
     return shorts;
 }
+export async function updateshort(id, data) {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    if (!response.ok) {
+        throw new Error("Erreur lors de la modification");
+    }
+
+    return await response.json();
+}

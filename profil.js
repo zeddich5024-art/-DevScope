@@ -168,7 +168,7 @@ export function afficherusers() {
             html_url: users.html_url,
             language: languageplus(depote),
             status: "À contacter",
-            rating: 5,
+            rating: 3,
             note: "Aunune note",
             createAt: new Date()
         };
