@@ -212,6 +212,31 @@ function affichershort(x) {
         if(short.status === "Refusé"){
             status_short.className="px-2 py-1 border border-red-500 text-red-500 font-medium bg-red-500/30 rounded-lg";
         }
+
+        // 11. rating de short
+
+        const rating_short=document.createElement("div");
+        rating_short.className="text-lg text-yellow-400";
+        
+        switch(short.rating){
+            case 1:
+                rating_short.textContent="★☆☆☆☆";
+                break;
+            case 2:
+                rating_short.textContent="★★☆☆☆";
+                break;
+            case 3:
+                rating_short.textContent="★★★☆☆";
+                break;
+            case 4:
+                rating_short.textContent="★★★★☆";
+                break;
+            case 5:
+                rating_short.textContent="★★★★★";
+                break;
+                        
+        }
+
         // 11. Bouton modifier
 
         const modifier=document.createElement("button");
@@ -239,7 +264,7 @@ function affichershort(x) {
             dialog.close();
         });
 
-        linge2.append(status_short,modifier,supprimer)
+        linge2.append(rating_short,status_short,modifier,supprimer)
         carte.append(linge1,linge2);
 
         carts.append(carte);
