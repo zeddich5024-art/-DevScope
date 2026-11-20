@@ -26,9 +26,7 @@ const cachedProfile = getCache(`profile_${username}`);
 if(cachedProfile){
     users = cachedProfile.users;
     depote = cachedProfile.depote;
-    console.log("eeee")
 }else{
-    console.log("rrrr")
     const result = await getProfile(username);
     users=result.users;
     depote=result.depote;

@@ -101,9 +101,7 @@ DevScope/
 
 ## 7. Liens du projet
 
--   **GitHub :** À compléter
--   **Application en ligne :** À compléter
--   **Jira :** À compléter
+-   **Présentation Canva** : *[https://canva.link/w8z20ae8ttc1ek9]*
 
 ## 8. Bilan
 
