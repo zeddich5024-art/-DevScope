@@ -1,5 +1,5 @@
 
-import {getUser,getDepots,postusers,getshorts} from "./api.js";
+import { getProfile,postusers,getshorts} from "./api.js";
 import {getCache, setCache} from "./cache.js";
 
 // 1. RÉCUPÉRATION DES PARAMÈTRES ET DONNÉES
@@ -19,7 +19,7 @@ Recherch.value = recherch;
 
 let users;
 let depote;
-
+try{
 const cachedProfile = getCache(`profile_${username}`);
 
 if(cachedProfile){
@@ -28,13 +28,15 @@ if(cachedProfile){
     console.log("eeee")
 }else{
     console.log("rrrr")
-    const [userData,repoData] = await Promise.all([getUser(username),getDepots(username)]);
-    users=userData;
-    depote=repoData;
-    setCache(`profile_${username}`,{
-        users:users,
-        depote:depote
-    })
+    const result = await getProfile(username);
+    users=result.users;
+    depote=result.depote;
+    setCache(`profile_${username}`,result);
+}
+afficherdata();
+}catch(err){
+    console.log(err);
+    error()
 }
 
 const shorts = await getshorts();
@@ -461,4 +463,4 @@ function afficherdata() {
 
 }
 
-afficherdata();
+

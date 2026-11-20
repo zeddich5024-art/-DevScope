@@ -1,21 +1,27 @@
 import{error} from "./profil.js";
-export async function getUser(recherch){
-    try{
-    const response = await fetch(`https://api.github.com/users/${recherch}`);
-    if(!response.ok) throw new Error (`Erreur ${response.status}`)
-    const users= await response.json();
-    return users;
-    
-    }catch(err){
-        error();
-    }
-} 
 
-export async function getDepots(recherch){
-    const response = await fetch(`https://api.github.com/users/${recherch}/repos?per_page=100&page=1`);
-    const depots= await response.json();
-    return depots;
-} 
+export async function getProfile(recherch){
+    try{
+        const [responseUser,responseRepos] = await Promise.all([
+            fetch(`https://api.github.com/users/${recherch}`),
+            fetch(`https://api.github.com/users/${recherch}/repos?per-page=100&page=1`)
+        ]);
+
+        if(!responseUser.ok){
+            throw new Error (`Erreur ${responseUser.status}`)
+        }
+        if(!responseRepos.ok){
+            throw new Error (`Erreur ${responseRepos.status}`)
+        }
+
+        const [users, depote] = await Promise.all([responseUser.json(),responseRepos.json()]);
+        
+        return {users,depote};
+
+    }catch(err){
+         throw err
+    }
+}
 
 const API_URL="https://6af935706d8b86fb22d6dc36.mockapi.io/depots/user";
 export async function postusers(shoruser){
