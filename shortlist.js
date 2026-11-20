@@ -197,13 +197,14 @@ function affichershort(x) {
         supprimer.textContent = "Supprimer";
         supprimer.addEventListener("click",()=>{
             Nomsupp.textContent=short.name || short.login;
-            console.log(Nomsupp.textContent)
+            supprimer.className = "px-2 py-1 border border-red-500/10 text-white/10 font-medium bg-red-500/10 cursor-pointer rounded-lg";
             shortASupprimer = short;
             modalSupp.showModal();
         })
         //  Bouton annuler
         btn_annuler_supp.addEventListener("click", () => {
         modalSupp.close();
+        supprimer.className = "px-2 py-1 border border-red-500 text-white font-medium bg-red-500/30 cursor-pointer rounded-lg";
         shortASupprimer = null;
     });
         
